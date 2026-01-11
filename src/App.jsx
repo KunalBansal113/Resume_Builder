@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import './ResumeBuilder.css'
-import html2pdf from 'html2pdf.js'
 import Home from './Home'
 import ResumeForm from './ResumeForm'
 import ResumePreview from './ResumePreview'
+import { handleDownload } from './utils/pdfDownloader'
 
 import defaultResumeData from '../public/defaultResumeData'
 
@@ -13,7 +13,13 @@ function App() {
     ...defaultResumeData,
     customSections: []
   })
-  const [sidebarWidth, setSidebarWidth] = useState()
+  const [sidebarWidth, setSidebarWidth] = useState(35)
+  const [theme, setTheme] = useState({
+    backgroundColor: '#ffffff',
+    textColor: '#2c3e50',
+    sidebarBackgroundColor: '#2f3b4e',
+    sidebarTextColor: '#ffffff'
+  })
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -27,6 +33,10 @@ function App() {
       reader.onloadend = () => setFormData(prev => ({ ...prev, profileImage: reader.result }))
       reader.readAsDataURL(file)
     }
+  }
+
+  const handleProfileImageUpdate = (imageDataUrl) => {
+    setFormData(prev => ({ ...prev, profileImage: imageDataUrl }))
   }
 
   const handleAddSection = () => {
@@ -48,16 +58,18 @@ function App() {
     setFormData({ ...formData, customSections: newSections })
   }
 
-  const handleDownload = () => {
-    const element = document.getElementById('resume-content')
-    const opt = {
-      margin: 0.5,
-      filename: 'resume.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    }
-    html2pdf().set(opt).from(element).save()
+  const handleThemeChange = (e) => {
+    const { name, value } = e.target
+    setTheme(prev => ({ ...prev, [name]: value }))
+  }
+
+  const handleResetTheme = () => {
+    setTheme({
+      backgroundColor: '#ffffff',
+      textColor: '#2c3e50',
+      sidebarBackgroundColor: '#2f3b4e',
+      sidebarTextColor: '#ffffff'
+    })
   }
 
   return (
@@ -81,9 +93,13 @@ function App() {
                   formData={formData} 
                   handleChange={handleChange} 
                   handleImageUpload={handleImageUpload}
+                  handleProfileImageUpdate={handleProfileImageUpdate}
                   handleAddSection={handleAddSection}
                   handleSectionChange={handleSectionChange}
                   handleRemoveSection={handleRemoveSection}
+                  theme={theme}
+                  handleThemeChange={handleThemeChange}
+                  handleResetTheme={handleResetTheme}
                 />
                 <ResumePreview 
                   formData={formData} 
@@ -92,10 +108,17 @@ function App() {
                   showDownload={false}
                   sidebarWidth={sidebarWidth}
                   setSidebarWidth={setSidebarWidth}
+                  theme={theme}
                 />
               </div>
             } />
-            <Route path="/preview" element={<ResumePreview formData={formData} handleDownload={handleDownload} sidebarWidth={sidebarWidth} setSidebarWidth={setSidebarWidth} />} />
+            <Route path="/preview" element={<ResumePreview 
+              formData={formData} 
+              handleDownload={handleDownload} 
+              sidebarWidth={sidebarWidth} 
+              setSidebarWidth={setSidebarWidth} 
+              theme={theme}
+            />} />
           </Routes>
         </div>
       </div>

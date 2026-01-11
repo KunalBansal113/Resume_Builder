@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useRef } from 'react'
 
-const ResumePreview = ({ formData, handleDownload, showEdit = true, showDownload = true, sidebarWidth = 32, setSidebarWidth }) => {
+const ResumePreview = ({ formData, handleDownload, showEdit = true, showDownload = true, sidebarWidth = 35, setSidebarWidth, theme }) => {
   const resumeRef = useRef(null)
 
   const startResizing = (e) => {
@@ -53,10 +53,10 @@ const ResumePreview = ({ formData, handleDownload, showEdit = true, showDownload
         </div>
       )}
 
-      <div id="resume-content" className="resume-layout" ref={resumeRef} style={{ gridTemplateColumns: `${sidebarWidth}% 10px 1fr` }}>
+      <div id="resume-content" className="resume-layout" ref={resumeRef} style={{ gridTemplateColumns: `${sidebarWidth}% 10px 1fr`, backgroundColor: theme.backgroundColor, color: theme.textColor }}>
         
         {/* LEFT SIDEBAR */}
-        <aside className="resume-sidebar">
+        <aside className="resume-sidebar" style={{ backgroundColor: theme.sidebarBackgroundColor, color: theme.sidebarTextColor }}>
           {formData.profileImage && (
             <img
               src={formData.profileImage}
@@ -65,7 +65,7 @@ const ResumePreview = ({ formData, handleDownload, showEdit = true, showDownload
             />
           )}
 
-          <section>
+          <section style={{ breakInside: 'avoid' }}>
             <h4>CONTACT</h4>
             {formData.phone && <p>{formData.phone}</p>}
             {formData.email && <p>{formData.email}</p>}
@@ -73,14 +73,14 @@ const ResumePreview = ({ formData, handleDownload, showEdit = true, showDownload
           </section>
 
           {formData.education && (
-            <section>
+            <section style={{ breakInside: 'avoid' }}>
               <h4>EDUCATION</h4>
-              <pre>{formData.education}</pre>
+              <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit' }}>{formData.education}</pre>
             </section>
           )}
 
           {formData.skills && (
-            <section>
+            <section style={{ breakInside: 'avoid' }}>
               <h4>EXPERTISE</h4>
               <ul>
                 {formData.skills.split(',').map((skill, i) => (
@@ -99,15 +99,15 @@ const ResumePreview = ({ formData, handleDownload, showEdit = true, showDownload
         ></div>
 
         {/* RIGHT CONTENT */}
-        <main className="resume-main">
+        <main className="resume-main" style={{ padding: '40px', color: theme.textColor }}>
           <h1 className="resume-name">{formData.fullName || 'Your Name'}</h1>
           <h2 className="resume-title">
             {formData.title || 'Professional Title'}
           </h2>
 
           {formData.summary && (
-            <section className="main-section">
-              <p className="summary-text">{formData.summary}</p>
+            <section className="main-section" style={{ breakInside: 'avoid' }}>
+              <p className="summary-text" style={{ whiteSpace: 'pre-wrap' }}>{formData.summary}</p>
             </section>
           )}
 
@@ -125,13 +125,13 @@ const ResumePreview = ({ formData, handleDownload, showEdit = true, showDownload
           const details = lines.slice(2).join('\n')
 
           return (
-            <div className="timeline-item" key={index}>
+            <div className="timeline-item" key={index} style={{ breakInside: 'avoid' }}>
               <div className="timeline-dot"></div>
 
               <div className="timeline-content">
                 <span className="timeline-year">{year}</span>
                 <h4>{role}</h4>
-                <pre>{details}</pre>
+                <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit' }}>{details}</pre>
               </div>
             </div>
           )
@@ -142,9 +142,9 @@ const ResumePreview = ({ formData, handleDownload, showEdit = true, showDownload
 
           {formData.customSections?.map((section, index) => (
             section.content && (
-              <section key={index} className="main-section">
+              <section key={index} className="main-section" style={{ breakInside: 'avoid' }}>
                 <h3>{section.title.toUpperCase()}</h3>
-                <pre className="resume-text">{section.content}</pre>
+                <pre className="resume-text" style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit' }}>{section.content}</pre>
               </section>
             )
           ))}
