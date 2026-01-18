@@ -14,7 +14,7 @@ export const handleDownload = () => {
   container.style.left = '-9999px'
   container.style.top = '0'
   container.style.width = '210mm' // Force exact A4 width
-  container.style.minHeight = '296.5mm' // Slightly less than A4 to prevent overflow
+  container.style.minHeight = '296mm' // Match A4 height
   container.style.backgroundColor = '#ffffff'
   document.body.appendChild(container)
 
@@ -27,7 +27,7 @@ export const handleDownload = () => {
   clone.style.boxShadow = 'none'
   clone.style.width = '100%' // Fill the 210mm container
   clone.style.height = 'auto'
-  clone.style.minHeight = '296.5mm' // Slightly less than A4 to prevent overflow
+  clone.style.minHeight = '296mm' // Match A4 height
   clone.style.borderRadius = '0'
   
   // Remove the resizer handle from the PDF

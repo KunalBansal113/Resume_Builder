@@ -1,0 +1,120 @@
+/* =====================
+   PREVIEW LAYOUT
+===================== */
+
+.preview-section {
+  flex: 1;
+  position: sticky;
+  top: 80px;
+  height: calc(100vh - 80px);
+  background: #f5f6fa;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top buttons */
+.preview-actions {
+  display: flex;
+  gap: 10px;
+  padding: 16px;
+  justify-content: center;
+}
+
+/* Button UI */
+.btn {
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-light {
+  background: #ecf0f1;
+  color: #2c3e50;
+}
+
+.btn-dark {
+  background: #2c3e50;
+  color: white;
+}
+
+.btn-success {
+  background: #27ae60;
+  color: white;
+}
+
+/* =====================
+   RESUME CENTERING
+===================== */
+
+.preview-canvas {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* ❌ no scroll */
+}
+
+/* =====================
+   RESUME PAGE
+===================== */
+
+.resume-layout {
+  width: 210mm;
+  min-height: 297mm;
+  display: grid;
+  background: white;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 0 18px rgba(0,0,0,0.15);
+  transform-origin: top center;
+
+  /* Auto fit screen */
+  transform: scale(
+    min(
+      calc(88vh / 297mm),
+      calc(88vw / 210mm)
+    )
+  );
+}
+
+/* LEFT */
+.resume-sidebar {
+  background: var(--accent);
+  color: white;
+  padding: 2.5rem;
+}
+
+/* RIGHT */
+.resume-main {
+  padding: 3rem;
+  color: #2c3e50;
+}
+
+/* =====================
+   RESPONSIVE
+===================== */
+
+@media (max-width: 1024px) {
+  .preview-section {
+    position: static;
+    height: auto;
+  }
+
+  .preview-canvas {
+    padding: 2rem 0;
+  }
+
+  .resume-layout {
+    transform: scale(0.9);
+  }
+}
+
+@media (max-width: 768px) {
+  .resume-layout {
+    transform: scale(1);
+    width: 100%;
+    min-height: auto;
+  }
+}
